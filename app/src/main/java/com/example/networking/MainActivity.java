@@ -24,14 +24,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            @SuppressLint("StaticFieldLeak")
-            private class JsonTask extends AsyncTask<String, String, String> {
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
 
-                private HttpURLConnection connection = null;
-                private BufferedReader reader = null;
+                String forecastJsonStr=null;
 
-                protected String doInBackground(String... params) {
-                    try {
+                try {
                         URL url = new URL("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
                         connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
@@ -42,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
                         StringBuilder builder = new StringBuilder();
                         String line;
-                        while ((line = reader.readLine()) != null && !isCancelled()) {
+                        while ((line = reader.readLine()) != null) {
                             builder.append(line).append("\n");
                         }
-                        return builder.toString();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -62,19 +59,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    return null;
+                    return;
                 }
-
-                @Override
-                protected void onPostExecute(String json) {
-                    Log.d("TAG", json);
-                }
-            }
-
-        HttpURLConnection urlConnection=null;
-        BufferedReader reader=null;
-
-        String forecastJsonStr=null;
-    }
 
 }
