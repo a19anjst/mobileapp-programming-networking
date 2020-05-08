@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         private HttpURLConnection connection = null;
         private BufferedReader reader = null;
+
+        private ArrayList<String> MountainNames=new ArrayList<String>();
+        private ArrayList<String> MountainLocs=new ArrayList<String>();
+        private ArrayList<Integer> MountainHeights=new ArrayList<Integer>();
 
         protected String doInBackground(String... params) {
             try {
@@ -66,7 +74,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String json) {
-            Log.d("TAG", json);
+            try{
+                JSONArray jsonArray = new JSONArray(json);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String name = jsonObject.getString("name");
+                    String location = jsonObject.getString("location");
+                    int height = jsonObject.getInt("size");
+
+                    MountainNames.add(name);
+                    MountainLocs.add(location);
+                   MountainHeights.add(height);
+                }
+            }
         }
     }
 
