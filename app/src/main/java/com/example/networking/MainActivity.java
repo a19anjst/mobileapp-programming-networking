@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<String> MountainNames=new ArrayList<String>();
         private ArrayList<String> MountainLocs=new ArrayList<String>();
         private ArrayList<Integer> MountainHeights=new ArrayList<Integer>();
+
+        private ArrayList<String> listData= new ArrayList<String>(Arrays.<String>asList(MountainNames));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, R.layout.activity_main,R.id.list_item_textView,listData);
+        ListView my_listView=(ListView) findViewById(R.id.my_listView);
+        my_listView.setAdapter(adapter);
+
+
 
         protected String doInBackground(String... params) {
             try {
@@ -85,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
                     MountainNames.add(name);
                     MountainLocs.add(location);
-                   MountainHeights.add(height);
+                    MountainHeights.add(height);
                 }
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             }
         }
