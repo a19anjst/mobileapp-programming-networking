@@ -9,6 +9,7 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     MountainLocs.add(location);
                    MountainHeights.add(height);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
