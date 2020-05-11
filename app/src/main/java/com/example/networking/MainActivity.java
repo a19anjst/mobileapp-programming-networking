@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView, MountainNames);
                 ListView my_listview=(ListView) findViewById(R.id.my_listView);
                 my_listview.setAdapter(adapter);
+                my_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                        Toast.makeText(getApplicationContext(), MountainNames.get(i) + " lies in" + MountainLocs.get(i) + "and is " + MountainHeights.get(i) + "metres high", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
             catch (JSONException e) {
                 e.printStackTrace();
