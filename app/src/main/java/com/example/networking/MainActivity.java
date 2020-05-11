@@ -6,9 +6,12 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +30,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<String> MountainNames=new ArrayList<String>();
         private ArrayList<String> MountainLocs=new ArrayList<String>();
         private ArrayList<Integer> MountainHeights=new ArrayList<Integer>();
-
-        private ArrayList<String> listData= new ArrayList<String>(Arrays.<String>asList(MountainNames));
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, R.layout.activity_main,R.id.list_item_textView,listData);
-        ListView my_listView=(ListView) findViewById(R.id.my_listView);
-        my_listView.setAdapter(adapter);
 
 
 
@@ -86,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String json) {
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView);
+            ListView my_listview=(ListView) findViewById(R.id.my_listView);
+
             try{
                 JSONArray jsonArray = new JSONArray(json);
                 for(int i = 0; i < jsonArray.length(); i++){
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     MountainNames.add(name);
                     MountainLocs.add(location);
                     MountainHeights.add(height);
+                    my_listview.setAdapter(adapter);
                 }
             }
             catch (JSONException e) {
