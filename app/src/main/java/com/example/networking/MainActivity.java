@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
     }
     @SuppressLint("StaticFieldLeak")
     private class JsonTask extends AsyncTask<String, String, String> {
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 my_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                        Toast.makeText(getApplicationContext(), MountainNames.get(i) + " lies in" + MountainLocs.get(i) + "and is " + MountainHeights.get(i) + "metres high", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), MountainNames.get(i) + " lies in " + MountainLocs.get(i) + " which is " + MountainHeights.get(i) + " metres high", Toast.LENGTH_LONG).show();
                     }
                 });
             }
