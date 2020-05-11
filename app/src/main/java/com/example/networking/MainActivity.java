@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String json) {
-            ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView);
-            ListView my_listview=(ListView) findViewById(R.id.my_listView);
 
             try{
                 JSONArray jsonArray = new JSONArray(json);
@@ -97,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                     MountainNames.add(name);
                     MountainLocs.add(location);
                     MountainHeights.add(height);
-                    my_listview.setAdapter(adapter);
                 }
+                ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView, MountainNames);
+                ListView my_listview=(ListView) findViewById(R.id.my_listView);
+                my_listview.setAdapter(adapter);
             }
             catch (JSONException e) {
                 e.printStackTrace();
