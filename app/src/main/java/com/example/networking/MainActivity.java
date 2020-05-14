@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a19anjst");
+        new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
     }
     @SuppressLint("StaticFieldLeak")
     private class JsonTask extends AsyncTask<String, String, String> {
@@ -38,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
         private HttpURLConnection connection = null;
         private BufferedReader reader = null;
 
-        private ArrayList<String> GodNames=new ArrayList<String>();
-        private ArrayList<String> GodLocs=new ArrayList<String>();
-        private ArrayList<String> GodPower=new ArrayList<String>();
+        private ArrayList<String> MountainNames=new ArrayList<String>();
+        private ArrayList<String> MountainLocs=new ArrayList<String>();
+        private ArrayList<Integer> MountainHeights=new ArrayList<Integer>();
 
 
 
         protected String doInBackground(String... params) {
             try {
-                URL url = new URL("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a19anjst");
+                URL url = new URL("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=brom");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -87,19 +92,19 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String name = jsonObject.getString("name");
                     String location = jsonObject.getString("location");
-                    String company = jsonObject.getString("company");
+                    int height = jsonObject.getInt("size");
 
-                    GodNames.add(name);
-                    GodLocs.add(location);
-                    GodPower.add(company);
+                    MountainNames.add(name);
+                    MountainLocs.add(location);
+                    MountainHeights.add(height);
                 }
-                ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView, GodNames);
+                ArrayAdapter<String> adapter=new ArrayAdapter<String>(MainActivity.this, R.layout.list_item_textview, R.id.list_item_textView, MountainNames);
                 ListView my_listview=(ListView) findViewById(R.id.my_listView);
                 my_listview.setAdapter(adapter);
                 my_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                        Toast.makeText(getApplicationContext(), GodNames.get(i) + " lives in " + GodLocs.get(i) + " and has the power of " + GodPower.get(i), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), MountainNames.get(i) + " lies in " + MountainLocs.get(i) + " which is " + MountainHeights.get(i) + " metres high", Toast.LENGTH_LONG).show();
                     }
                 });
             }
